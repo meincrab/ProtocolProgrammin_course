@@ -2,20 +2,25 @@ import socket
 import sys
 import os
 
+BUFFER_SIZE = 1024
+
 def sendFile(socket):
     filename = 'heikkiTonni.jpg'
-    file = open(filename)
-    msgSize = len(file)
+    #open file for reading in binary format
+    file = open(filename,'rb')
+    msgSize = os.stat(filename).st_size
     dataSent = 0
     socket.send((filename+"&").encode())
-    socket.send(str(len(file) + "&").encode())
-    while dataSent < msgSize:
-        dataSent += socket.send(file.encode())
-        print('Bytes sent %d from %d' % (dataSent , msgSize))
+    socket.send((str(msgSize) + "&").encode())
+    l = file.read(BUFFER_SIZE)
+    while(l):
+        socket.send(l)
+        l = file.read(BUFFER_SIZE)
+    file.close
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect("localhost", 8888)
+s.connect(("localhost", 8888))
 sendFile(s)
 print("Files Send")
-print(s.recv(1024))
+print(s.recv(BUFFER_SIZE))
 s.close()
