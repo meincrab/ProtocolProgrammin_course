@@ -7,11 +7,14 @@ Protocol MUST have two possible requsets LIST and DOWNLOAD and also two possible
 
   
 ## Requests and Responses
-Requests and Responces are formatted in plain text. Each request and responce consists of two parts, HEADER-part and BODY-part. HEADER MAY contain information about FILENAME and MUST contain infromation about message length. Body MUST contain PAYLOAD such as DATA or Error Message.
+Requests and Responses are formatted in plain text. Each request and response consists of two parts, HEADER-part and BODY-part. HEADER MAY contain information about FILENAME and MUST contain infromation about message length. Body MUST contain PAYLOAD such as DATA or Error Message.
 
 ## Requests  
 ### LIST - Request  
-LIST  lists the filenames of the files available on the server.
+LIST  lists the filenames of the files available on the server.  
+Returns a FILE response containg information about files.  
+Takes two parameters, server address, and listening port.  
+In case if server is unreachable, returns error.  
 
 #### Example Request
 LIST {address} {port}  
@@ -21,28 +24,37 @@ Files:
 cat.jpg  
 dog.jpg  
 parrot.jpg  
-  
+
 ### DOWNLOAD - Request  
-DOWNLOAD downloads a file. A filename has to be provided.  
-  
+DOWNLOAD downloads a file. A filename has to be provided. 
+
+#### Example Request
+FILE {address} {port} {filename}
+FILE localhost 8888 doge.png
+   
 #### Example Request 
 DOWNLOAD localhost 8888 test.jpg
 
+## POSSIBLE ERRORS: 
+#### [Errno 111] Connection refused  
+Error can mean bad arguments such as server address, or error on   the server side like server's malfunction
+#### FileNotFoundError  
+Error returned by a server, telling what demanded file is missing.
+#### ValueError
+Error returned in case, when one of the arguments e.g. File  
+Argument missing
 
-## Responces  
-
-### ERROR - Responce  
-ERROR tells the client that the request could not be processed. The error message can be describe several different kinds of errors.  
-  
+## Responses  
+ 
 #### Example Request 
 
-#### Example Responce  
+#### Example Response  
 
-### FILE - Responce  
+### FILE - Response  
 FILE returns the data to the client.  
   
 #### Example Request  
-#### Example Responce  
+#### Example Response  
 
 ### Reference material:  
 HTTP Protocol  
