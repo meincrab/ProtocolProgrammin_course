@@ -12,13 +12,29 @@ Requests and Responces are formatted in plain text. REQUESTS LIST, DOWNLOAD and 
 Header of the message, MUST contain the length of the body, and for FILE responce also contian anme of the file, dividing them from the content of the body with "&" char.  
 
 ### LIST - Request  
-LIST  lists the filenames of the files available on the server.
+LIST  lists the filenames of the files available on the server.  
+  
+#### Example Request
+#### Example Responce
+
+  
 ### DOWNLOAD - Request  
 DOWNLOAD downloads a file. A filename has to be provided.  
+  
+#### Example Request  
+#### Example Responce  
+
 ### ERROR - Responce  
-ERROR tells the client that the request could not be processed. The error message can be describe several different kinds of errors.
+ERROR tells the client that the request could not be processed. The error message can be describe several different kinds of errors.  
+  
+#### Example Request  
+#### Example Responce  
+
 ### FILE - Responce  
-FILE returns the data to the client.
+FILE returns the data to the client.  
+  
+#### Example Request  
+#### Example Responce  
 
 ### Reference material:  
 HTTP Protocol  
