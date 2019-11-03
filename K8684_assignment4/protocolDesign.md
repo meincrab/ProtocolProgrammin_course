@@ -9,7 +9,16 @@ Protocol MUST have two possible requsets LIST and DOWNLOAD and also two possible
 Requests and Responces are formatted in plain text. REQUESTS LIST, DOWNLOAD and RESPONCE ERROR, FILE SHOULD consist of two parts, MESSAGE HEADER and MESSAGE BODY. 
 
 ### HEADER  
-Header of the message, MUST contain the length of the body, and for FILE responce also contian anme of the file, dividing them from the content of the body with "&" char. 
+Header of the message, MUST contain the length of the body, and for FILE responce also contian anme of the file, dividing them from the content of the body with "&" char.  
+
+### LIST - Request  
+LIST  lists the filenames of the files available on the server.
+### DOWNLOAD - Request  
+DOWNLOAD downloads a file. A filename has to be provided.  
+### ERROR - Responce  
+ERROR tells the client that the request could not be processed. The error message can be describe several different kinds of errors.
+### FILE - Responce  
+FILE returns the data to the client.
 
 ### Reference material:  
 HTTP Protocol  
