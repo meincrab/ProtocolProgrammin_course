@@ -12,10 +12,15 @@ Requests and Responces are formatted in plain text. Each request and responce co
 ## Requests  
 ### LIST - Request  
 LIST  lists the filenames of the files available on the server.
-  
+
 #### Example Request
 LIST {address} {port}  
 LIST localhost 8888  
+### Example Response  
+Files:  
+cat.jpg  
+dog.jpg  
+parrot.jpg  
   
 ### DOWNLOAD - Request  
 DOWNLOAD downloads a file. A filename has to be provided.  
