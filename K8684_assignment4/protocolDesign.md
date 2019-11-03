@@ -13,21 +13,28 @@ Header of the message, MUST contain the length of the body, and for FILE responc
 
 ### LIST - Request  
 LIST  lists the filenames of the files available on the server.  
+Returns FILE containing files available for download from server
   
 #### Example Request
-#### Example Responce
+LIST {address} {port}  
+LIST localhost 8888  
 
+#### Example Responce
+FILE data
   
 ### DOWNLOAD - Request  
 DOWNLOAD downloads a file. A filename has to be provided.  
   
-#### Example Request  
+#### Example Request 
+DOWNLOAD localhost 8888 test.jpg
 #### Example Responce  
+FILE data
 
 ### ERROR - Responce  
 ERROR tells the client that the request could not be processed. The error message can be describe several different kinds of errors.  
   
-#### Example Request  
+#### Example Request 
+
 #### Example Responce  
 
 ### FILE - Responce  
