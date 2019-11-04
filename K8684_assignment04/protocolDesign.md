@@ -4,57 +4,64 @@
 
 This is a design document for simple file transfer protocol.  
 Protocol MUST have two possible requsets LIST and DOWNLOAD and also two possible responses ERROR and FILE. Protocol MUST use sockets and SHOULD use TCP(Transmission Control Protocol) for connection and data transfering between CLIENT and SERVER. TCP is needed for making sure about integrity of sent and received data.  Client is sending requests to the server, server is answering to requests with response. Protocol is stateless and doesn't have authentication like username and password.  
-
   
-## Requests and Responses
-Requests and Responses are formatted in plain text. Each request and response consists of two parts, HEADER-part and BODY-part. HEADER MAY contain information about FILENAME and MUST contain infromation about message length. Body MUST contain PAYLOAD such as DATA or Error Message.
+Data is send by data chunks, with buffer size 1024.  
+  
+  
+## Requests and Responses  
+Requests and Responses are formatted in plain text. Each request and response consists of two parts, HEADER-part and BODY-part. HEADER MAY contain information about FILENAME and MUST contain infromation about BODY part length. Body MUST contain PAYLOAD such as DATA or Error Message.
 
 ## Requests  
 ### LIST - Request  
-LIST  lists the filenames of the files available on the server.  
-Returns a FILE response containg information about files.  
+LIST lists the filenames of the files available on the server.  
+Returns a FILE response containg information about files in the folder.  
 Takes two parameters, server address, and listening port.  
-In case if server is unreachable, returns error.  
+In case if server is unreachable, returns error. No specific folder specification, working directory on server always same. 
 
-#### Example Request
+#### Example Request  
 LIST {address} {port}  
 LIST localhost 8888  
-### Example Response  
+#### Example Response  
 Files:  
 cat.jpg  
 dog.jpg  
-parrot.jpg  
-
+parrot.jpg    
+  
 ### DOWNLOAD - Request  
-DOWNLOAD downloads a file. A filename has to be provided. 
+DOWNLOAD downloads a file. A filename has to be provided. If filename isn't provided , returns error. Takes free parameters address, port and name of file to download. No specific folder specification, working directory on server always the same.
 
 #### Example Request
-FILE {address} {port} {filename}
-FILE localhost 8888 doge.png
-   
-#### Example Request 
-DOWNLOAD localhost 8888 test.jpg
+DOWNLOAD {address} {port} {filename}
+DOWNLOAD localhost 8888 doge.png
 
 ## POSSIBLE ERRORS: 
 #### [Errno 111] Connection refused  
 Error can mean bad arguments such as server address, or error on   the server side like server's malfunction
-#### FileNotFoundError  
-Error returned by a server, telling what demanded file is missing.
 #### ValueError
 Error returned in case, when one of the arguments e.g. File  
 Argument missing
+#### I/O device error
+After receiving all data chunks from server, client may not be able to  write changes to disk, due to disk or running out of space error
 
 ## Responses  
- 
-#### Example Request 
-
-#### Example Response  
-
 ### FILE - Response  
-FILE returns the data to the client.  
-  
+FILE returns the data to the client. If client requested DOWNLOAD  requested file should be handled as binary with rb flag
+
 #### Example Request  
-#### Example Response  
+DOWNLOAD localhost 8888 doge.png
+  
+#### Example Response
+FILE doge.png
+
+#### ERROR - Response  
+Tells the client that the request could not be processed. The error message can be describe several different kinds of errors. Called in situations when FILE can't return DATA or any other error occurs. 
+
+#### Example Response
+ERROR errortype
+
+## Possible Errors
+#### FileNotFoundError  
+Error returned by a server to client, telling what demanded file is missing.
 
 ### Reference material:  
 HTTP Protocol  
