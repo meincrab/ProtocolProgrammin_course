@@ -18,20 +18,33 @@ import sys
 import os
 
 BUFFER_SIZE = 1024
-method = sys.argv[1]
+
+
+
+def listFiles(socket):
+    socket.send(("LIST\n").encode())
+def downloadFile(socket):
+    print("Hello World2")
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+method = ""
+try:
+    method = sys.argv[1]
+except Exception as e:
+    print("ValueError - check your arguments ")
+    exit()
 method = str(method)
-print(method)
+
+try:
+    sock.connect((sys.argv[2], int(sys.argv[3])))
+except (ConnectionError):
+    print("Something went wrong while estabilishing connection, check your props")
+    exit()
+
 if method == "LIST":
-    list()
+    listFiles(sock)
 elif method=="DOWNLOAD":
-    download( )
+    downloadFile(sock)
 else:
     print("Unknown value is given as method name")
 
-
-def list():
-    print("Hello World")
-
-
-def download():
-    print("Hello World2")
