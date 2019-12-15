@@ -1,20 +1,37 @@
+''' 
+[meincrab@meincrabLap K8684_assignment3.5]$ python client.py 
+Message from server: 0 of 32408 Received
+Message from server: 1024 of 32408 Received
+Message from server: 2048 of 32408 Received
+....
+....
+Message from server: 26624 of 32408 Received
+Message from server: 27648 of 32408 Received
+Message from server: 28672 of 32408 Received
+Message from server: 29696 of 32408 Received
+Message from server: 30720 of 32408 Received
+Message from server: 31744 of 32408 Received
+Files Send
+'''
 import socket
 import sys
+import os
+
+BUFFER_SIZE = 1024
+method = sys.argv[1]
+method = str(method)
+print(method)
+if method == "LIST":
+    list()
+elif method=="DOWNLOAD":
+    download( )
+else:
+    print("Unknown value is given as method name")
 
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+def list():
+    print("Hello World")
 
 
-try:
-    s.connect((sys.argv[1], int(sys.argv[2])))
-except Exception as e:
-    print(e)
-    print("Something is wrong with arguments!")
-    sys.exit()
-try: 
-    s.send(bytes("hello world", "utf-8"))
-except Exception as e:
-    print("Something went wrong during sending Data")
-    sys.exit()
-print(str(s.recv(1024), "utf-8"))
-s.close()
+def download():
+    print("Hello World2")

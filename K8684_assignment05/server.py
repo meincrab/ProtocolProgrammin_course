@@ -1,45 +1,37 @@
 import socket
 import sys
-
+import os
 BUFFER_SIZE = 1024
 
-def incomeLength(client):
-    length = ""
+def parseRequest(client):
+    request = ""
     while 1:
         data = client.recv(1)
         if str(data.decode()) is "&":
             break
-        else: 
-            length += str(data.decode())
-    return length
-
-'''
-[meincrab@meincrabLap K8684_assignment03]$ python server.py "localhost" 8888
-Received a connection from  ('127.0.0.1', 52210)
-hello world
-Received a connection from  ('127.0.0.1', 52212)
-hello world
-Received a connection from  ('127.0.0.1', 52214)
-hello world
-'''
-
+        else:
+            request += str(data.decode)
+        return request
 
 def main():
+    fileFolder = (sys.argv[3])
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    #Allows not to wait and avoid "Port already in use " error, handy
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    try:
-        sock.bind((sys.argv[1], int(sys.argv[2])))
-    except Exception as e:
-        print(e)
-        print("Something is wrong with arguments!")
-        sys.exit()
-    while 1:
-        sock.listen(5)
+    sock.bind((sys.argv[1], int(sys.argv[2])))
+    sock.listen(5)
+
+    while True:
         (client, addr) = sock.accept()
+        dataRec = 0
+        data = ""
         print("Received a connection from ", addr)
-        print(str(client.recv(1024), "utf-8"))
-        client.send(bytes("Data received\n", "utf-8"))
+        print("Type of request: ")
+        parseRequest(client)
+
+        print("Name of the input: %s " % (nameOf))
+        lengthOf = incomeLength(client)
+        print("Length of the input: %s " % (lengthOf))
+        receiveFile(client, nameOf, lengthOf, imageFolder)
 
 if __name__ == "__main__":
     main()
